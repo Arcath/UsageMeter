@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  device_id: 1
+  year: 1
+  month: 1
+  in: 1
+  out: 1
+
+two:
+  device_id: 1
+  year: 1
+  month: 1
+  in: 1
+  out: 1

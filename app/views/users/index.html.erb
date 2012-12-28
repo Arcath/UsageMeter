@@ -1,0 +1,55 @@
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Devices</th>
+		<th>Downloads</th>
+		<th>Uploads</th>
+	</tr>
+	<% @users.each do |user| %>
+		<tr>
+			<td><%= user.name %></td>
+			<td><%= user.devices.count %></td>
+			<td><%= render_ammount user.device_usage[0] %></td>
+			<td><%= render_ammount user.device_usage[1] %></td>
+		</tr>
+		<% @total_in += user.device_usage[0] %>
+		<% @total_out += user.device_usage[1]%>
+	<% end %>
+	<tr>
+		<td>Unclaimed</td>
+		<td><%= Device.unclaimed.count %></td>
+		<td><%= render_ammount Device.unclaimed_data[0] %></td>
+		<td><%= render_ammount Device.unclaimed_data[1] %></td>
+		<% @total_in += Device.unclaimed_data[0] %>
+		<% @total_out += Device.unclaimed_data[1]%>
+	</tr>
+	<tr>
+		<th>Total</th>
+		<th></th>
+		<th><%= render_ammount @total_in %></th>
+		<th><%= render_ammount @total_out %></th>
+	</tr>
+	
+	<div id="chart_div" style="width: 900px; height: 500px;"></div>
+	
+	<script type="text/javascript">
+	      google.load("visualization", "1", {packages:["corechart"]});
+	      google.setOnLoadCallback(drawChart);
+	      function drawChart() {
+	        var data = google.visualization.arrayToDataTable([
+	          ['User', 'Usage (GB)'],
+			  <% @users.each do |user| %>
+	          	['<%= user.name %>', <%= to_mb(user.device_usage[0]).to_i %>],
+			  <% end %>
+	          ['Unclaimed',    <%= to_mb(Device.unclaimed_data[0]).to_i %>]
+	        ]);
+
+	        var options = {
+	          title: 'Usage Per User'
+	        };
+
+	        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+	        chart.draw(data, options);
+	      }
+	    </script>
+</table>

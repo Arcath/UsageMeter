@@ -1,0 +1,21 @@
+<table>
+	<tr>
+		<th>Hostname</th>
+		<th>Downloads</th>
+		<th>Uploads</th>
+	</tr>
+	<% @devices.each do |device| %>
+		<tr>
+			<td><%= link_to device.hostname, device %></td>
+			<td><%= render_ammount(device.usages.last.in) %></td>
+			<td><%= render_ammount(device.usages.last.out) %></td>
+		</tr>
+		<% @total_in += device.usages.last.in %>
+		<% @total_out += device.usages.last.out %>
+	<% end %>
+	<tr>
+		<th>Total</th>
+		<th><%= render_ammount(@total_in) %></th>
+		<th><%= render_ammount(@total_out) %></th>
+	</tr>
+</table>

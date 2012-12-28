@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  ip: MyString
+  mac: MyString
+  hostname: MyString
+
+two:
+  ip: MyString
+  mac: MyString
+  hostname: MyString

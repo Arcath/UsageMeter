@@ -1,0 +1,18 @@
+<h2><%= @device.hostname %></h2>
+
+<table>
+	<tr>
+		<th>Year</th>
+		<th>Month</th>
+		<th>Download</th>
+		<th>Upload</th>
+	</tr>
+	<% @device.usages.each do |usage| %>
+		<tr>
+			<td><%= usage.year %></td>
+			<td><%= usage.month %></td>
+			<td><%= render_ammount usage.in %></td>
+			<td><%= render_ammount usage.out %></td>
+		</tr>
+	<% end %>
+</table>
