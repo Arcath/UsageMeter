@@ -39,9 +39,10 @@
 	        var data = google.visualization.arrayToDataTable([
 	          ['User', 'Usage (GB)'],
 			  <% @users.each do |user| %>
-	          	['<%= user.name %>', <%= to_mb(user.device_usage[0]).to_i %>],
+	          	['<%= user.name %>', <%= to_gb(user.device_usage[0]).to_i %>],
 			  <% end %>
-	          ['Unclaimed',    <%= to_mb(Device.unclaimed_data[0]).to_i %>]
+	          ['Unclaimed',    <%= to_gb(Device.unclaimed_data[0]).to_i %>],
+			  ['Free', <%= (UsageLimit - to_gb(@total_in)).to_i %>]
 	        ]);
 
 	        var options = {
