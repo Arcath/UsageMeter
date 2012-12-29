@@ -18,4 +18,8 @@ class Device < ActiveRecord::Base
     end
     return [total_in, total_out]
   end
+  
+  def usage(year = Time.now.year, month = Time.now.month)
+    usages.where(:year => year, :month => month).first
+  end
 end

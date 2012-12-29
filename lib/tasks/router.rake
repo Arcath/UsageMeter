@@ -4,7 +4,11 @@ namespace :router do
   desc "Pull Usage from router"
   task :pull => :environment do
     puts "Connecting to router @ http://#{ROUTER_IP}"
-    system("curl http://#{ROUTER_IP}/user/js/traffic.js > /tmp/router_traffic.js")
+    if which "wget"
+      system("wget http://#{ROUTER_IP}/user/js/traffic.js -O /tmp/router_traffic.js")
+    else
+      system("curl http://#{ROUTER_IP}/user/js/traffic.js > /tmp/router_traffic.js")
+    end
   end
   
   desc "update devices"
@@ -72,4 +76,15 @@ def device_hash(days)
     end
   end
   return hash
+end
+
+def which(cmd)
+  exts = ENV['PATHEXT'] ? ENV['PATHEXT'].split(';') : ['']
+  ENV['PATH'].split(File::PATH_SEPARATOR).each do |path|
+    exts.each { |ext|
+      exe = "#{path}/#{cmd}#{ext}"
+      return exe if File.executable? exe
+    }
+  end
+  return nil
 end

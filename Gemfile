@@ -4,6 +4,7 @@ gem 'rails', '3.2.9'
 
 gem 'jquery-rails'
 gem 'sqlite3'
+gem 'whenever', require: false
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
