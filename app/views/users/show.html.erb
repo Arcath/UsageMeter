@@ -1,0 +1,38 @@
+<h2><%= @user.name %></h2>
+
+<table>
+	<tr>
+		<th>Device</th>
+		<th>Downloads</th>
+		<th>Uploads</th>
+	</tr>
+	<% @user.devices.each do |device| %>
+		<tr>
+			<td><%= link_to device.hostname, device %></td>
+			<td><%= render_ammount(device.usage.in) %></td>
+			<td><%= render_ammount(device.usage.out) %></td>
+		</tr>
+	<% end %>
+</table>
+
+<div id="chart_div" style="width: 900px; height: 500px;"></div>
+	
+<script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Device', 'Usage (GB)'],
+		  <% @user.devices.each do |device| %>
+		  	['<%= device.hostname %>', <%= device.usage.in %>]<%= "," unless device == @user.devices.last %>
+		  <% end %>
+        ]);
+
+        var options = {
+          title: 'Usage Per Device'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
