@@ -52,19 +52,23 @@ def data_array
   return @data
 end
 
-def device_hash(array)
+def device_hash(days)
   hash = {}
-  array[0].each do |i|
-    if i =~ /\./
-      hash[i] = [array[1][array[1].index(i)+1], '-Unknown-']
+  days.each do |array|
+    array[1].each do |i|
+      if i =~ /\./
+        hash[i] = [array[1][array[1].index(i)+1], '-Unknown-']
+      end
     end
-  end
   
-  array[1].each do |i|
-    if i =~ /\./
-      hash[i] ||= ['-Unknown-', '-Unknown-']
-      hash[i].push(array[2][array[2].index(i)+1])
-      hash[i].push(array[2][array[2].index(i)+2])
+    array[2].each do |i|
+      if i =~ /\./
+        hash[i] ||= ['-Unknown-', '-Unknown-']
+        hash[i][2] ||= 0
+        hash[i][3] ||= 0
+        hash[i][2] += array[2][array[2].index(i)+1].to_i
+        hash[i][3] += array[2][array[2].index(i)+2].to_i
+      end
     end
   end
   return hash
