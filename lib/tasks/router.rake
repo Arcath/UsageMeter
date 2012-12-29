@@ -54,13 +54,13 @@ end
 
 def device_hash(array)
   hash = {}
-  array[1].each do |i|
+  array[0].each do |i|
     if i =~ /\./
       hash[i] = [array[1][array[1].index(i)+1], '-Unknown-']
     end
   end
   
-  array[2].each do |i|
+  array[1].each do |i|
     if i =~ /\./
       hash[i] ||= ['-Unknown-', '-Unknown-']
       hash[i].push(array[2][array[2].index(i)+1])
