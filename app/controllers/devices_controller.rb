@@ -1,5 +1,8 @@
+require 'resolv'
+
 class DevicesController < ApplicationController
   def index
+    Device.update_data
     @devices = Device.all
     @total_in = 0
     @total_out = 0
