@@ -14,6 +14,7 @@ module ApplicationHelper
   def render_ammount(i)
     output = "#{to_kb(i)} KB"
     output = "#{to_mb(i)} MB" if i >= (900 * 1024)
+    output = "#{to_gb(i)} GB" if i >= ((900 * 1024) * 1024)
     return output
   end
 end
