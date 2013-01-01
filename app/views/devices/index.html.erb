@@ -8,8 +8,8 @@
 	<% if device.usage %>
 		<tr>
 			<td><%= link_to device.hostname, device %></td>
-			<td><%= render_ammount(device.usage.in) %></td>
-			<td><%= render_ammount(device.usage.out) %></td>
+			<td><%= render_ammount(device.usage_for.in) %></td>
+			<td><%= render_ammount(device.usage_for.out) %></td>
 		</tr>
 		<% @total_in += device.usage.in %>
 		<% @total_out += device.usage.out %>

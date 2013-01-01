@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121228193529) do
+ActiveRecord::Schema.define(:version => 20130101110859) do
 
   create_table "devices", :force => true do |t|
     t.string   "ip"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20121228193529) do
     t.integer  "out"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "day"
   end
 
   create_table "users", :force => true do |t|
