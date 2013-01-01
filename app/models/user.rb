@@ -8,8 +8,10 @@ class User < ActiveRecord::Base
     total_out = 0
     devices.each do |device|
       usage = device.usages.where(:year => year, :month => month).first
-      total_in += usage.in
-      total_out += usage.out
+      if usage
+        total_in += usage.in
+        total_out += usage.out
+      end
     end
     return [total_in, total_out]
   end
