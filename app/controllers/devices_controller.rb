@@ -10,5 +10,6 @@ class DevicesController < ApplicationController
   
   def show
     @device = Device.find(params[:id])
+    @usages = @device.usages.order("created_at desc").limit(31)
   end
 end

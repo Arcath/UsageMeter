@@ -9,8 +9,8 @@
 	<% @user.devices.each do |device| %>
 		<tr>
 			<td><%= link_to device.hostname, device %></td>
-			<td><%= render_ammount(device.usage.in) %></td>
-			<td><%= render_ammount(device.usage.out) %></td>
+			<td><%= render_ammount(device.usage_for_month[0]) %></td>
+			<td><%= render_ammount(device.usage_for_month[1]) %></td>
 		</tr>
 	<% end %>
 </table>
@@ -24,7 +24,7 @@
         var data = google.visualization.arrayToDataTable([
           ['Device', 'Usage (GB)'],
 		  <% @user.devices.each do |device| %>
-		  	['<%= device.hostname %>', <%= device.usage.in %>]<%= "," unless device == @user.devices.last %>
+		  	['<%= device.hostname %>', <%= device.usage_for_month[0] %>]<%= "," unless device == @user.devices.last %>
 		  <% end %>
         ]);
 

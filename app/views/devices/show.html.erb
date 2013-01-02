@@ -1,17 +1,41 @@
 <h2><%= @device.hostname %></h2>
 <h3><%= @device.ip %> - <%= @device.mac %></h3>
 
+<div id="chart_div" style="width: 900px; height: 500px;"></div>
+
+<script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Day', 'Downloaded', 'Uploaded'],
+		  <% @usages.reverse.each do |usage| %>
+          	["<%= usage.day %>/<%= usage.month %>/<%= usage.year %>", <%= to_mb(usage.in) %>, <%= to_mb(usage.out) %>]<%= "," unless usage == @usages.reverse.last %>
+          <% end %>
+        ]);
+
+        var options = {
+          title: 'Company Performance'
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+
 <table>
 	<tr>
-		<th>Year</th>
+		<th>Day</th>
 		<th>Month</th>
+		<th>Year</th>
 		<th>Download</th>
 		<th>Upload</th>
 	</tr>
-	<% @device.usages.each do |usage| %>
+	<% @usages.each do |usage| %>
 		<tr>
-			<td><%= usage.year %></td>
+			<td><%= usage.day %></td>
 			<td><%= usage.month %></td>
+			<td><%= usage.year %></td>
 			<td><%= render_ammount usage.in %></td>
 			<td><%= render_ammount usage.out %></td>
 		</tr>

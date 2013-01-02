@@ -7,8 +7,7 @@ class User < ActiveRecord::Base
     total_in = 0
     total_out = 0
     devices.each do |device|
-      usage = device.usages.where(:year => year, :month => month, :day => day).first
-      if usage
+      device.usages.where(:year => year, :month => month).each do |usage|
         total_in += usage.in
         total_out += usage.out
       end

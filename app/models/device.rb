@@ -21,8 +21,13 @@ class Device < ActiveRecord::Base
     return [total_in, total_out]
   end
   
-  def usage(year = Time.now.year, month = Time.now.month)
-    usages.where(:year => year, :month => month).first
+  def usage_for_month(year = Time.now.year, month = Time.now.month)
+    total = [0, 0]
+    usages.where(:year => year, :month => month).each do |usage|
+      total[0] += usage.in
+      total[1] += usage.out
+    end
+    return total
   end
   
   def usage_for(year = Time.now.year, month = Time.now.month, day = Time.now.day)
@@ -58,9 +63,22 @@ class Device < ActiveRecord::Base
           @remove_total["#{raw_usage}-out"] ||= 0
           usage_array = [raw_usage, data_day[2][data_day[2].index(raw_usage)+1].to_i, data_day[2][data_day[2].index(raw_usage)+2].to_i]
           device = Device.find_by_ip(usage_array[0])
-          usage = device.usage_for(year,month,day)
+          begin
+            usage = device.usage_for(year,month,day)
+          rescue NoMethodError
+            device = Device.find_or_create_by_ip(usage_array[0])
+            begin
+              device.hostname = Resolv.getname(ip)
+            rescue
+              device.hostname = "-Unknown-"
+            end
+            device.save
+            usage = device.usage_for(year,month,day)
+          end
           usage.out = (usage_array[1] - @remove_total["#{raw_usage}-out"])
           usage.in = (usage_array[2] - @remove_total["#{raw_usage}-in"])
+          usage.in = 0 if usage.in <= 0
+          usage.out = 0 if usage.out <= 0
           @remove_total["#{raw_usage}-in"] += usage_array[2]
           @remove_total["#{raw_usage}-out"] += usage_array[1]
           usage.save
