@@ -5,7 +5,7 @@
 		<th>Uploads</th>
 	</tr>
 	<% @devices.each do |device| %>
-	<% if device.usage_for.in %>
+	<% if device.usage_for_month %>
 		<tr>
 			<td><%= link_to device.hostname, device %></td>
 			<td><%= render_ammount(device.usage_for_month[0]) %></td>

@@ -79,8 +79,8 @@ class Device < ActiveRecord::Base
           usage.in = (usage_array[2] - @remove_total["#{raw_usage}-in"])
           usage.in = 0 if usage.in <= 0
           usage.out = 0 if usage.out <= 0
-          @remove_total["#{raw_usage}-in"] += usage_array[2]
-          @remove_total["#{raw_usage}-out"] += usage_array[1]
+          @remove_total["#{raw_usage}-in"] = usage_array[2]
+          @remove_total["#{raw_usage}-out"] = usage_array[1]
           usage.save
         end
       end
