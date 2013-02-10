@@ -49,10 +49,12 @@ class Device < ActiveRecord::Base
         if host =~ /\./
           device = Device.find_or_create_by_ip(host)
           device.mac = data_day[1][data_day[1].index(host)+1]
-          begin
-            device.hostname = Resolv.getname(ip)
-          rescue
-            device.hostname = "-Unknown-"
+          device.hostname ||= "-Unknown-"
+          if device.hostname == "-Unknown-"
+            begin
+              device.hostname = Resolv.getname(ip)
+            rescue
+            end
           end
           device.save
         end

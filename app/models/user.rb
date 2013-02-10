@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   
   has_many :devices
   
-  def device_usage(year = Time.now.year, month = Time.now.month, day = Time.now.day)
+  def device_usage(year = Time.now.year, month = Time.now.month)
     total_in = 0
     total_out = 0
     devices.each do |device|
